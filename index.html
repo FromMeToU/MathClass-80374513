@@ -48,6 +48,11 @@
         .status-B { background-color: #bfdbfe; color: #1e40af; } /* Blue */
         .status-C { background-color: #fef08a; color: #854d0e; } /* Yellow */
         .status-D { background-color: #e9d5ff; color: #581c87; } /* Purple */
+        /* ตัวพิมพ์เล็ก = ส่งสาย ใช้ได้ในโหมดให้คะแนนยืดหยุ่น/ระบบใหม่ */
+        .status-a { background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .status-b { background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+        .status-c { background-color: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .status-d { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
         .status-none { background-color: #fecaca; color: #991b1b; } /* Red */
         .status-progress { background-color: #e5e7eb; color: #1f2937; } /* Gray for numeric scores */
         
@@ -507,9 +512,9 @@ body.fullscreen-mode .icon-exit-fullscreen {
                                 </div>
                                 <div class="flex items-center mt-2">
                                     <input type="checkbox" id="disableLateLockCheckbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                                    <label for="disableLateLockCheckbox" class="ml-2 text-sm text-gray-900">ไม่ล็อกการส่งงานเมื่อส่งช้าเกิน 3 วัน (เฉพาะห้องนี้)</label>
+                                    <label for="disableLateLockCheckbox" class="ml-2 text-sm text-gray-900">โหมดให้คะแนนยืดหยุ่น / ไม่ล็อกการส่งงาน (เฉพาะห้องนี้)</label>
                                 </div>
-                                <p class="mt-1 ml-6 text-xs text-gray-500">ค่าเริ่มต้น: ปิดตัวเลือกนี้ = ล็อกตามปกติเมื่อสายเกิน 3 วัน</p>
+                                <p class="mt-1 ml-6 text-xs text-gray-500">เมื่อเปิดโหมดนี้: ครูเลือก A B C D หรือ a b c d ได้เอง ไม่บังคับตามวันส่ง ไม่ล็อกเกรด และไม่ล็อกเมื่อส่งช้าเกิน 3 วัน</p>
                             </div>
                              <div class="mt-4 border-t pt-3">
                                 <h3 class="text-sm font-semibold mb-2">นำเข้า/ส่งออก:</h3>
@@ -574,10 +579,8 @@ body.fullscreen-mode .icon-exit-fullscreen {
                             </button>
                         </div>
                         <div class="collapsible-content pt-2 flex flex-wrap gap-4 text-sm">
-                            <span class="font-semibold status-A px-2 py-1 rounded-md">A: ส่งตรงเวลาและถูกต้อง</span>
-                            <span class="font-semibold status-B px-2 py-1 rounded-md">B: ส่งตรงเวลาแต่ไม่ถูกต้อง</span>
-                            <span class="font-semibold status-C px-2 py-1 rounded-md">C: ส่งช้าแต่ถูกต้อง</span>
-                            <span class="font-semibold status-D px-2 py-1 rounded-md">D: ส่งช้าและไม่ถูกต้อง</span>
+                            <span class="font-semibold status-A px-2 py-1 rounded-md">A/B/C/D: ส่งเร็ว/ปกติ</span>
+                            <span class="font-semibold status-a px-2 py-1 rounded-md">a/b/c/d: ส่งสาย</span>
                             <span class="font-semibold status-none px-2 py-1 rounded-md">ยังไม่ส่ง</span>
                         </div>
                     </div>
