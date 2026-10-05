@@ -562,6 +562,39 @@ body.fullscreen-mode .icon-exit-fullscreen {
                             <button data-column="totalScore" class="toggle-column-btn text-sm font-bold py-2 px-3 rounded-lg shadow">รวม</button>
                             <button data-column="gpa" class="toggle-column-btn text-sm font-bold py-2 px-3 rounded-lg shadow">ผลการเรียน</button>
                         </div>
+                        <!-- COLUMN SHEET EXPORT V1: isolated from legacy Google Sheets sync -->
+                        <div id="columnSheetExportPanel" class="mt-4 border-t pt-3 space-y-2">
+                            <!-- COLUMN EXCEL EXPORT V1: local-only, shares the same read-only score projection -->
+                            <section id="columnExcelExportPanel" class="rounded-lg border border-indigo-200 bg-indigo-50 p-3 space-y-2">
+                                <h3 class="text-sm font-bold text-indigo-900">ส่งออกคอลัมน์คะแนน → Excel (.xlsx)</h3>
+                                <p class="text-xs text-indigo-900">ยึดปีการศึกษาและภาคเรียนที่เลือกในแอป ดึงคอลัมน์คะแนนเก็บจนถึงผลการเรียน พร้อมคอลัมน์พิเศษทุกคอลัมน์ แม้จะซ่อนอยู่ (ไม่รวมงานรายชิ้น) ใช้งานได้โดยไม่ต้องตั้งค่า Google Sheets</p>
+                                <p id="columnExcelContext" class="text-xs font-semibold text-indigo-900"></p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button id="columnExcelAllBtn" type="button" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold py-2 px-3 rounded-lg">Export Excel ทุกห้อง</button>
+                                    <button id="columnExcelCurrentBtn" type="button" class="bg-indigo-100 hover:bg-indigo-200 border border-indigo-400 text-indigo-900 text-xs font-bold py-2 px-3 rounded-lg">Export Excel เฉพาะห้องนี้</button>
+                                </div>
+                                <p id="columnExcelStatus" role="status" aria-live="polite" class="text-xs text-indigo-900">ไฟล์ทุกห้องจะแยก 1 worksheet ต่อห้องเรียน ข้อมูลจะไม่ถูกส่งขึ้นเซิร์ฟเวอร์จากปุ่มนี้</p>
+                            </section>
+                            <h3 class="text-sm font-bold text-emerald-800">ส่งคะแนนคอลัมน์ → Google Sheets</h3>
+                            <p class="text-xs text-gray-600">ส่งเฉพาะคะแนนเก็บจนถึงผลการเรียน และคอลัมน์พิเศษทุกคอลัมน์ (รวมคอลัมน์ที่ซ่อนอยู่) ของทุกห้องในปีการศึกษาและภาคเรียนที่เลือก ไม่ส่งข้อมูลงานรายชิ้น</p>
+                            <p class="text-xs font-semibold text-emerald-800">ชื่อแท็บใน Google Sheets จะใช้ชื่อห้องจากแอปตรง ๆ เช่น ป.5, ป.6, พื้นฐาน ม.1 โดยไม่เติมปี ภาคเรียน หรือรหัสต่อท้าย</p>
+                            <p id="columnSheetContext" class="text-xs font-semibold text-emerald-800"></p>
+                            <p class="text-xs text-emerald-900">ชีตปลายทางกำหนดแล้ว: <a href="https://docs.google.com/spreadsheets/d/1IsLZs30hThV1Jsda7QZhhf6eBMJ4EL7Nz7-SsGkfJVg/edit" target="_blank" rel="noopener noreferrer" class="underline font-semibold">คะแนน (Google Sheets)</a> — ไม่ต้องกรอกลิงก์ชีตซ้ำ (URL ช่องถัดไปเป็น URL ของ Apps Script /exec)</p>
+                            <label for="columnSheetUrl" class="block text-xs font-semibold">URL เว็บแอป Google Apps Script สำหรับตารางคะแนนนี้</label>
+                            <input id="columnSheetUrl" type="url" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec" class="w-full border border-gray-300 rounded-lg p-2 text-xs">
+                            <label for="columnSheetToken" class="block text-xs font-semibold">รหัสเชื่อมต่อ (ตรงกับ Code.gs)</label>
+                            <input id="columnSheetToken" type="password" autocomplete="off" placeholder="รหัสลับยาวอย่างน้อย 16 ตัวอักษร" class="w-full border border-gray-300 rounded-lg p-2 text-xs">
+                            <label class="flex gap-2 items-start text-xs text-gray-700">
+                                <input id="columnSheetAuto" type="checkbox" class="mt-0.5">
+                                <span>ส่งอัตโนมัติหลังเปลี่ยนคะแนน (เมื่อกำหนด URL และรหัสแล้ว)</span>
+                            </label>
+                            <div class="flex gap-2 flex-wrap">
+                                <button id="columnSheetSaveBtn" type="button" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2 px-3 rounded-lg">บันทึกการตั้งค่า</button>
+                                <button id="columnSheetSendBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg">ส่งคะแนนปี/ภาคเรียนที่เลือกตอนนี้</button>
+                            </div>
+                            <p id="columnSheetStatus" role="status" aria-live="polite" class="text-xs text-gray-600">ตั้งค่าปลายทางก่อนส่งข้อมูล ระบบนี้ไม่แก้ไข Firebase หรือระบบส่งข้อมูลเดิม</p>
+                            <p class="text-xs text-amber-800">การส่งจากไฟล์ HTML แบบข้ามเว็บไซต์ไม่สามารถตรวจผลตอบกลับของ Apps Script ได้ กรุณาเปิด Google Sheets เพื่อตรวจข้อมูลหลังส่ง</p>
+                        </div>
                         <div class="mt-4 border-t pt-3">
                             <h3 class="text-sm font-semibold mb-2">การจัดเรียงงาน (แนวนอน):</h3>
                             <div class="flex flex-wrap gap-2">
